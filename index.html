@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDN - Travel & Hotel Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:      #0a1628;
+      --navy-mid:  #0d1f3c;
+      --navy-light:#122548;
+      --gold:      #c9a84c;
+      --gold-light:#e8c97a;
+      --sky:       #4a9fd4;
+      --sky-light: #7bbde4;
+      --white:     #ffffff;
+      --off-white: #e8eef5;
+      --text-muted:#8daabf;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 6%;
+      background: rgba(10,22,40,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      transition: background .3s;
+    }
+    nav.scrolled { background: rgba(10,22,40,0.97); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo-circle {
+      width: 50px; height: 50px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .logo-circle span {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+    .logo-circle::before {
+      content: '';
+      position: absolute;
+      top: -4px; right: -4px;
+      width: 14px; height: 14px;
+      background: var(--gold);
+      border-radius: 50%;
+      clip-path: polygon(50% 0%,100% 50%,50% 100%,0% 50%);
+    }
+    .nav-brand { color: var(--white); }
+    .nav-brand .brand-name { font-size: 22px; font-weight: 900; letter-spacing: 3px; }
+    .nav-brand .brand-sub  { font-size: 9px; color: var(--gold); letter-spacing: 2px; }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color .3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; right: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy) !important;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+    }
+
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0 6%;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(74,159,212,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
+        linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #0f2d52 100%);
+    }
+
+    /* world map overlay */
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 700' opacity='0.07'%3E%3Cellipse cx='600' cy='350' rx='580' ry='330' fill='none' stroke='%234a9fd4' stroke-width='1'/%3E%3Cellipse cx='600' cy='350' rx='400' ry='330' fill='none' stroke='%234a9fd4' stroke-width='0.5'/%3E%3Cline x1='0' y1='350' x2='1200' y2='350' stroke='%234a9fd4' stroke-width='0.5'/%3E%3Cline x1='600' y1='0' x2='600' y2='700' stroke='%234a9fd4' stroke-width='0.5'/%3E%3Cellipse cx='600' cy='350' rx='580' ry='150' fill='none' stroke='%234a9fd4' stroke-width='0.5'/%3E%3C/svg%3E") center/cover no-repeat;
+    }
+
+    /* plane */
+    .plane-anim {
+      position: absolute;
+      top: 18%;
+      right: -80px;
+      font-size: 52px;
+      filter: drop-shadow(0 4px 20px rgba(74,159,212,0.5));
+      animation: flyAcross 8s ease-in-out infinite;
+      z-index: 2;
+    }
+    @keyframes flyAcross {
+      0%   { right: -80px; top: 18%; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { right: calc(100% + 80px); top: 8%; opacity: 0; }
+    }
+
+    /* arc line behind plane */
+    .hero-arc {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 640px;
+      animation: fadeUp .9s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow span { font-size: 16px; }
+
+    .hero-title {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .hero-title .accent { color: var(--sky-light); }
+    .hero-title .gold   { color: var(--gold); }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      padding: 14px 32px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(201,168,76,0.45);
+    }
+    .btn-outline {
+      border: 1.5px solid rgba(74,159,212,0.6);
+      color: var(--sky-light);
+      padding: 14px 32px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: rgba(74,159,212,0.1);
+      border-color: var(--sky-light);
+    }
+
+    /* floating hotel card */
+    .hero-visual {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeUp .9s .4s ease both;
+    }
+    .stat-card {
+      background: rgba(13,31,60,0.85);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 16px;
+      padding: 16px 20px;
+      backdrop-filter: blur(12px);
+      min-width: 180px;
+    }
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+    .stat-card .lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* stars row */
+    .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; }
+
+    /* ── SEARCH BAR ── */
+    .search-section {
+      background: var(--navy-mid);
+      padding: 28px 6%;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .search-box {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .search-field {
+      flex: 1;
+      min-width: 160px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .search-field:focus { border-color: var(--gold); }
+    .search-field::placeholder { color: var(--text-muted); }
+    .search-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      border: none;
+      padding: 13px 28px;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .search-btn:hover { transform: scale(1.03); }
+
+    /* ── SERVICES ── */
+    #services {
+      padding: 90px 6%;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-eyebrow {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .section-title .sky { color: var(--sky-light); }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 36px 28px;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(201,168,76,0.35);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.3);
+    }
+    .service-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .service-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .service-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .service-badge {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* ── WHY US ── */
+    #why {
+      padding: 90px 6%;
+      background: var(--navy-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    #why::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(74,159,212,0.05) 0%, transparent 70%);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .why-item {
+      text-align: center;
+      padding: 32px 20px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(10,22,40,0.5);
+      transition: transform .3s, border-color .3s;
+    }
+    .why-item:hover { transform: translateY(-6px); border-color: rgba(74,159,212,0.3); }
+    .why-icon { font-size: 44px; margin-bottom: 14px; }
+    .why-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .why-item p  { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 90px 6%;
+    }
+    .contact-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .contact-info h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .contact-info p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .phone-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      transition: border-color .3s, transform .2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .phone-card:hover { border-color: var(--gold); transform: translateX(-4px); }
+    .flag { font-size: 24px; }
+    .phone-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      direction: ltr;
+    }
+    .phone-lbl { font-size: 12px; color: var(--text-muted); }
+
+    .contact-form {
+      background: var(--navy-mid);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 36px 28px;
+    }
+    .contact-form h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: var(--gold);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--off-white);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--white);
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--navy-mid); }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      margin-top: 8px;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(201,168,76,0.4);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060e1b;
+      padding: 40px 6% 24px;
+      border-top: 1px solid rgba(201,168,76,0.12);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .footer-logo .brand-name { font-size: 22px; font-weight: 900; }
+    .footer-logo .brand-sub  { font-size: 9px; color: var(--gold); letter-spacing: 2px; }
+    .footer-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--gold-light);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { font-size: 13px; color: var(--text-muted); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: popIn .3s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(.85); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .modal .icon { font-size: 56px; margin-bottom: 12px; }
+    .modal h3 { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .modal p  { color: var(--text-muted); margin-bottom: 24px; line-height: 1.7; }
+    .modal-close {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      border: none;
+      padding: 12px 32px;
+      border-radius: 30px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* ── SCROLL TOP ── */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 900;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+    }
+    .scroll-top.show { display: flex; }
+    .scroll-top:hover { transform: translateY(-3px); }
+
+    /* ── MOBILE NAV ── */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 0; right: 0;
+      width: 75%;
+      max-width: 300px;
+      height: 100vh;
+      background: var(--navy-mid);
+      border-left: 1px solid rgba(201,168,76,0.2);
+      padding: 80px 32px 40px;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform .3s;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 600;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: block;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 998;
+    }
+    .mobile-overlay.open { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-visual { display: none; }
+      .hero-content { max-width: 100%; }
+      .contact-wrapper { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 14px 4%; }
+      #hero { padding: 100px 4% 60px; }
+      #services, #why, #contact { padding: 60px 4%; }
+      .hero-btns { flex-direction: column; }
+      .footer-top { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ── REVEAL ANIM ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════ NAV ══════ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">
+    <div class="logo-circle"><span>MDN</span></div>
+    <div class="nav-brand">
+      <div class="brand-name">MDN</div>
+      <div class="brand-sub">TRAVEL & HOTEL BOOKING</div>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#hero">الرئيسية</a></li>
+    <li><a href="#services">خدماتنا</a></li>
+    <li><a href="#why">لماذا نحن</a></li>
+    <li><a href="#contact">تواصل معنا</a></li>
+  </ul>
+
+  <a href="#contact" class="nav-cta">احجز الآن ✈️</a>
+
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero"     onclick="closeMenu()">🏠 الرئيسية</a>
+  <a href="#services" onclick="closeMenu()">🌍 خدماتنا</a>
+  <a href="#why"      onclick="closeMenu()">⭐ لماذا نحن</a>
+  <a href="#contact"  onclick="closeMenu()">📞 تواصل معنا</a>
+</div>
+
+<!-- ══════ HERO ══════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- animated plane -->
+  <div class="plane-anim">✈️</div>
+
+  <!-- arc SVG -->
+  <svg class="hero-arc" viewBox="0 0 1200 700" preserveAspectRatio="none">
+    <path d="M1100,80 Q900,300 400,600" stroke="rgba(201,168,76,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="8,8">
+      <animate attributeName="stroke-dashoffset" values="0;-40" dur="3s" repeatCount="indefinite"/>
+    </path>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span>✈️</span> Your Journey Starts Here</div>
+    <h1 class="hero-title">
+      لدينا جميع<br>
+      <span class="accent">الفنادق العالمية</span><br>
+      <span class="gold">في كل أنحاء العالم</span>
+    </h1>
+    <p class="hero-desc">
+      احجز أفضل الفنادق وأرقى الوجهات السياحية حول العالم بأسعار تنافسية وخدمة 24/7
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">✈️ احجز رحلتك الآن</a>
+      <a href="#services" class="btn-outline">🌍 اعرف خدماتنا</a>
+    </div>
+  </div>
+
+  <!-- floating stats on left -->
+  <div class="hero-visual" style="left:auto; right:5%;">
+    <div class="stat-card">
+      <div class="num">3★ – 7★</div>
+      <div class="lbl">فنادق لجميع الميزانيات</div>
+      <div class="stars">★★★★★★★</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">24/7</div>
+      <div class="lbl">دعم العملاء المستمر</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">100%</div>
+      <div class="lbl">حجوزات آمنة ومضمونة</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ SEARCH BAR ══════ -->
+<div class="search-section">
+  <div class="search-box">
+    <input class="search-field" type="text"    placeholder="🌍 الوجهة أو اسم الفندق" />
+    <input class="search-field" type="date"    placeholder="📅 تاريخ الوصول" />
+    <input class="search-field" type="date"    placeholder="📅 تاريخ المغادرة" />
+    <select class="search-field">
+      <option value="">👥 عدد الأشخاص</option>
+      <option>1 شخص</option>
+      <option>2 شخص</option>
+      <option>3-4 أشخاص</option>
+      <option>+5 أشخاص</option>
+    </select>
+    <button class="search-btn" onclick="handleSearch()">🔍 ابحث الآن</button>
+  </div>
+</div>
+
+<!-- ══════ SERVICES ══════ -->
+<section id="services">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">— خدماتنا —</div>
+    <h2 class="section-title">كل ما تحتاجه لرحلة <span class="sky">مثالية</span></h2>
+    <p class="section-desc">نوفر لك تجربة سفر متكاملة من البداية حتى العودة بأمان وراحة</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">🏨</span>
+      <h3>حجز فنادق عالمية</h3>
+      <p>أفضل الخيارات وأرقى الفنادق من 3 نجوم حتى 7 نجوم في جميع أنحاء العالم بأسعار منافسة</p>
+      <span class="service-badge">3★ → 7★</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🌐</span>
+      <h3>حجوزات سياحية</h3>
+      <p>باقات سياحية شاملة لجميع الوجهات حول العالم مع تنظيم كامل للرحلة</p>
+      <span class="service-badge">جميع الوجهات</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🏷️</span>
+      <h3>عروض سفر مميزة</h3>
+      <p>خصومات حصرية وعروض خاصة لا تجدها في أي مكان آخر على أفضل الفنادق والرحلات</p>
+      <span class="service-badge">عروض حصرية</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🎧</span>
+      <h3>دعم ومتابعة</h3>
+      <p>فريق دعم احترافي متاح 24 ساعة طوال أيام الأسبوع قبل وأثناء وبعد السفر</p>
+      <span class="service-badge">24/7</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ WHY US ══════ -->
+<section id="why">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">— مميزاتنا —</div>
+    <h2 class="section-title">لماذا تختار <span class="sky">MDN</span> ؟</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item reveal">
+      <div class="why-icon">🏨</div>
+      <h4>فنادق 3 إلى 7 نجوم</h4>
+      <p>خيارات تناسب جميع الميزانيات والتفضيلات</p>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🌏</div>
+      <h4>في جميع أنحاء العالم</h4>
+      <p>تغطية شاملة لمئات الوجهات السياحية</p>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🛡️</div>
+      <h4>حجوزات آمنة ومضمونة</h4>
+      <p>نضمن لك حجزاً آمناً 100% مع تأكيد فوري</p>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🧳</div>
+      <h4>تجربة سفر لا تُنسى</h4>
+      <p>نهتم بكل تفاصيل رحلتك لتحصل على أفضل تجربة</p>
+    </div>
+    <div class="why-item reveal">
+      <div class="why-icon">🕐</div>
+      <h4>دعم العملاء 24/7</h4>
+      <p>نحن معك في أي وقت تحتاج فيه مساعدة</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACT ══════ -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">— تواصل معنا —</div>
+    <h2 class="section-title">ابدأ رحلتك <span class="sky">اليوم</span></h2>
+  </div>
+
+  <div class="contact-wrapper">
+    <div class="contact-info reveal">
+      <h2>للتواصل والحجز</h2>
+      <p>تواصل معنا عبر أي من أرقام الهاتف التالية وسيكون فريقنا سعيداً بخدمتك</p>
+
+      <a href="tel:+201113068872" class="phone-card">
+        <span class="flag">🇪🇬</span>
+        <div>
+          <div class="phone-num">+20 111 306 8872</div>
+          <div class="phone-lbl">الخط الأول</div>
+        </div>
+      </a>
+      <a href="tel:+201018917208" class="phone-card">
+        <span class="flag">🇪🇬</span>
+        <div>
+          <div class="phone-num">+20 101 891 7208</div>
+          <div class="phone-lbl">الخط الثاني</div>
+        </div>
+      </a>
+
+      <br>
+      <p style="color:var(--text-muted); font-size:13px;">
+        ✅ متاحون على WhatsApp · 📧 ردّ خلال ساعات · ✈️ حجز فوري
+      </p>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3>📋 أرسل لنا استفسارك</h3>
+      <div class="form-group">
+        <label>الاسم الكامل</label>
+        <input type="text" placeholder="أدخل اسمك" id="nameInput" />
+      </div>
+      <div class="form-group">
+        <label>رقم الهاتف</label>
+        <input type="tel" placeholder="+20 ..." id="phoneInput" />
+      </div>
+      <div class="form-group">
+        <label>الوجهة المطلوبة</label>
+        <select id="destInput">
+          <option value="">اختر الوجهة</option>
+          <option>أوروبا</option>
+          <option>آسيا</option>
+          <option>أمريكا</option>
+          <option>الخليج العربي</option>
+          <option>إفريقيا</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>تفاصيل الرحلة</label>
+        <textarea rows="3" placeholder="عدد الأشخاص، التواريخ، متطلبات خاصة..." id="msgInput"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">✈️ أرسل الطلب</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">
+      <div class="brand-name">MDN</div>
+      <div class="brand-sub">TRAVEL & HOTEL BOOKING</div>
+    </div>
+    <div class="footer-tagline">✈ Your Journey Starts Here ✈</div>
+    <div style="color:var(--text-muted); font-size:13px;">
+      🇪🇬 +20 111 306 8872<br>
+      🇪🇬 +20 101 891 7208
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 MDN Travel & Hotel Booking — جميع الحقوق محفوظة</p>
+    <p style="color:var(--gold); font-size:12px;">🏨 فنادق 3★ → 7★ &nbsp;|&nbsp; 🌍 حول العالم &nbsp;|&nbsp; 🕐 24/7</p>
+  </div>
+</footer>
+
+<!-- ══════ MODAL ══════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="icon">✅</div>
+    <h3>تم إرسال طلبك بنجاح!</h3>
+    <p>شكراً لتواصلك مع MDN Travel. سيتصل بك فريقنا في أقرب وقت ممكن.<br><br>
+    يمكنك أيضاً التواصل مباشرة عبر الهاتف للحجز الفوري.</p>
+    <button class="modal-close" onclick="closeModal()">حسناً 👍</button>
+  </div>
+</div>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // ── Nav scroll effect ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // ── Hamburger ──
+  const ham  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  const mOvl = document.getElementById('mobileOverlay');
+
+  ham.addEventListener('click', () => {
+    menu.classList.add('open');
+    mOvl.classList.add('open');
+  });
+  mOvl.addEventListener('click', closeMenu);
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    mOvl.classList.remove('open');
+  }
+
+  // ── Reveal on scroll ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Search handler ──
+  function handleSearch() {
+    const dest = document.querySelector('.search-field').value.trim();
+    if (!dest) {
+      alert('من فضلك أدخل الوجهة أو اسم الفندق');
+      return;
+    }
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── Form submit ──
+  function submitForm() {
+    const name  = document.getElementById('nameInput').value.trim();
+    const phone = document.getElementById('phoneInput').value.trim();
+    if (!name || !phone) {
+      alert('من فضلك أدخل الاسم ورقم الهاتف على الأقل');
+      return;
+    }
+    document.getElementById('modalOverlay').classList.add('open');
+    // reset
+    document.getElementById('nameInput').value  = '';
+    document.getElementById('phoneInput').value = '';
+    document.getElementById('destInput').value  = '';
+    document.getElementById('msgInput').value   = '';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  // close modal on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ── stagger reveal cards ──
+  document.querySelectorAll('.service-card, .why-item').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.08) + 's';
+  });
+</script>
+</body>
+</html>
