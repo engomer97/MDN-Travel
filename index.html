@@ -729,20 +729,159 @@
     }
     .mobile-overlay.open { display: block; }
 
-    /* ── RESPONSIVE ── */
+    /* ══════════════════════════════════
+       RESPONSIVE — كل أحجام الشاشات
+       ══════════════════════════════════ */
+
+    /* ── Large Desktop: 1400px+ ── */
+    @media (min-width: 1400px) {
+      nav { padding: 20px 8%; }
+      #hero { padding: 0 8%; }
+      .search-section { padding: 32px 8%; }
+      #services, #why, #contact { padding: 100px 8%; }
+      footer { padding: 48px 8% 28px; }
+      .hero-title { font-size: 72px; }
+      .contact-wrapper { max-width: 1000px; gap: 64px; }
+    }
+
+    /* ── Desktop: 1200px ── */
+    @media (max-width: 1200px) {
+      .hero-title { font-size: clamp(32px, 4.5vw, 58px); }
+      .stat-card { min-width: 160px; }
+      .stat-card .num { font-size: 24px; }
+    }
+
+    /* ── Tablet Landscape: 1024px ── */
+    @media (max-width: 1024px) {
+      .nav-links { gap: 20px; }
+      .nav-links a { font-size: 13px; }
+      .hero-content { max-width: 55%; }
+      .hero-visual { right: 3%; }
+      .stat-card { min-width: 145px; padding: 12px 14px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: repeat(3, 1fr); }
+      .contact-wrapper { gap: 32px; }
+      .contact-info h2 { font-size: 28px; }
+      .phone-num { font-size: 17px; }
+    }
+
+    /* ── Tablet Portrait: 900px ── */
     @media (max-width: 900px) {
       .nav-links, .nav-cta { display: none; }
       .hamburger { display: flex; }
       .hero-visual { display: none; }
       .hero-content { max-width: 100%; }
-      .contact-wrapper { grid-template-columns: 1fr; }
+      .hero-title { font-size: clamp(34px, 6vw, 52px); }
+      .hero-desc { max-width: 100%; font-size: 16px; }
+      .search-box { gap: 10px; }
+      .search-field { min-width: 140px; font-size: 13px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+      .why-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 36px; }
+      .contact-info { text-align: center; }
+      .contact-info h2 { font-size: 28px; }
+      .phone-card { justify-content: center; }
+      .footer-top { justify-content: center; text-align: center; }
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
     }
+
+    /* ── Mobile Large: 768px ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 5%; }
+      #hero { padding: 90px 5% 60px; min-height: 100svh; }
+      .search-section { padding: 20px 5%; }
+      #services, #why, #contact { padding: 64px 5%; }
+      footer { padding: 36px 5% 20px; }
+      .hero-title { font-size: clamp(30px, 7vw, 44px); }
+      .section-title { font-size: clamp(24px, 5vw, 36px); }
+      .search-box { flex-direction: column; align-items: stretch; }
+      .search-field { min-width: unset; width: 100%; }
+      .search-btn { width: 100%; padding: 14px; }
+      .services-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .service-card { padding: 24px 18px; }
+      .service-icon { font-size: 32px; margin-bottom: 12px; }
+      .service-card h3 { font-size: 15px; }
+      .service-card p { font-size: 13px; }
+      .why-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .why-item { padding: 24px 14px; }
+      .why-icon { font-size: 36px; }
+      .why-item h4 { font-size: 14px; }
+      .contact-form { padding: 24px 18px; }
+      .modal { padding: 28px 20px; }
+      .modal h3 { font-size: 18px; }
+    }
+
+    /* ── Mobile: 600px ── */
     @media (max-width: 600px) {
-      nav { padding: 14px 4%; }
-      #hero { padding: 100px 4% 60px; }
-      #services, #why, #contact { padding: 60px 4%; }
-      .hero-btns { flex-direction: column; }
-      .footer-top { flex-direction: column; align-items: flex-start; }
+      nav { padding: 12px 4%; }
+      .logo-circle { width: 40px; height: 40px; }
+      .logo-circle span { font-size: 14px; }
+      .nav-brand .brand-name { font-size: 18px; }
+      .nav-brand .brand-sub { font-size: 8px; letter-spacing: 1px; }
+      #hero { padding: 80px 4% 48px; }
+      .hero-eyebrow { font-size: 10px; padding: 5px 12px; }
+      .hero-title { font-size: clamp(26px, 8vw, 38px); line-height: 1.2; }
+      .hero-desc { font-size: 14px; margin-bottom: 28px; }
+      .hero-btns { flex-direction: column; gap: 12px; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; padding: 13px 20px; font-size: 14px; }
+      .search-section { padding: 16px 4%; }
+      #services, #why, #contact { padding: 52px 4%; }
+      footer { padding: 28px 4% 16px; }
+      .section-header { margin-bottom: 36px; }
+      .section-title { font-size: clamp(22px, 6vw, 32px); }
+      .section-desc { font-size: 14px; }
+      .services-grid { grid-template-columns: 1fr; gap: 14px; }
+      .service-card { padding: 22px 18px; }
+      .why-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .why-item { padding: 20px 12px; }
+      .contact-info h2 { font-size: 24px; }
+      .phone-num { font-size: 16px; }
+      .phone-card { padding: 12px 14px; }
+      .contact-form { padding: 20px 16px; border-radius: 16px; }
+      .contact-form h3 { font-size: 17px; margin-bottom: 18px; }
+      .form-group label { font-size: 12px; }
+      .form-group input,
+      .form-group textarea,
+      .form-group select { font-size: 14px; padding: 10px 12px; }
+      .booking-box { padding: 10px 12px; gap: 10px; }
+      .booking-icons { font-size: 18px; }
+      .booking-label { font-size: 13px; }
+      .submit-btn { font-size: 15px; padding: 13px; }
+      .footer-top { gap: 14px; }
+      .footer-logo .brand-name { font-size: 18px; }
+      .footer-tagline { font-size: 15px; }
+      .footer-bottom p { font-size: 12px; }
+      .scroll-top { bottom: 20px; left: 16px; width: 38px; height: 38px; font-size: 16px; }
+      .modal { padding: 24px 16px; border-radius: 16px; }
+      .modal .icon { font-size: 44px; }
+      .modal h3 { font-size: 17px; }
+      .modal p { font-size: 13px; }
+    }
+
+    /* ── Mobile Small: 400px ── */
+    @media (max-width: 400px) {
+      .hero-title { font-size: clamp(22px, 8.5vw, 30px); }
+      .why-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .nav-brand .brand-sub { display: none; }
+      .phone-num { font-size: 14px; }
+    }
+
+    /* ── Landscape Mobile ── */
+    @media (max-height: 500px) and (orientation: landscape) {
+      #hero { min-height: auto; padding: 80px 6% 40px; }
+      .hero-title { font-size: clamp(20px, 4vw, 30px); }
+      .hero-desc { display: none; }
+      .hero-btns { margin-top: 0; }
+      .stat-card { padding: 8px 12px; }
+      .stat-card .num { font-size: 18px; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      nav, .scroll-top, .plane-anim, .mobile-menu, .mobile-overlay { display: none !important; }
+      body { background: white; color: black; }
+      .hero-bg { display: none; }
     }
 
     /* ── REVEAL ANIM ── */
@@ -754,6 +893,61 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ── SHAKE ANIMATION ── */
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+
+    /* ── FLOATING WHATSAPP BUTTON ── */
+    .wa-float {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      z-index: 950;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 18px 12px 14px;
+      border-radius: 50px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      transition: transform .25s, box-shadow .25s, padding .3s;
+      overflow: hidden;
+      max-width: 56px;
+      white-space: nowrap;
+    }
+    .wa-float:hover {
+      max-width: 220px;
+      padding: 12px 20px;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(37,211,102,0.55);
+    }
+    .wa-float svg {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+    }
+    .wa-float .wa-label {
+      opacity: 0;
+      transition: opacity .2s .1s;
+      font-size: 14px;
+    }
+    .wa-float:hover .wa-label { opacity: 1; }
+
+    @media (max-width: 600px) {
+      .wa-float { bottom: 70px; left: 12px; padding: 11px 13px; }
+      .wa-float .wa-label { display: none; }
+      .wa-float:hover { max-width: 56px; padding: 11px 13px; }
     }
   </style>
 </head>
@@ -1109,31 +1303,40 @@
 
   // ── Form submit → WhatsApp ──
   function submitForm() {
-    const name  = document.getElementById('nameInput').value.trim();
-    const phone = document.getElementById('phoneInput').value.trim();
-    const dest  = document.getElementById('destInput').value.trim();
-    const msg   = document.getElementById('msgInput').value.trim();
-    const bookingType = document.querySelector('input[name="bookingType"]:checked').value;
+    var name  = document.getElementById('nameInput').value.trim();
+    var phone = document.getElementById('phoneInput').value.trim();
+    var dest  = document.getElementById('destInput').value.trim();
+    var msg   = document.getElementById('msgInput').value.trim();
+    var bookingType = document.querySelector('input[name="bookingType"]:checked').value;
 
     if (!name || !phone) {
-      alert('من فضلك أدخل الاسم ورقم الهاتف على الأقل');
+      if (!name)  shakeField('nameInput');
+      if (!phone) shakeField('phoneInput');
       return;
     }
 
-    const waNumber = '00201113068872';
-    const text = `مرحباً MDN Travel 👋\n\n` +
-      `📋 *طلب حجز جديد*\n` +
-      `━━━━━━━━━━━━━━━\n` +
-      `👤 الاسم: ${name}\n` +
-      `📞 الهاتف: ${phone}\n` +
-      `✈️ نوع الحجز: ${bookingType}\n` +
-      `🌍 الوجهة: ${dest || 'لم تحدد'}\n` +
-      `📝 التفاصيل: ${msg || 'لا توجد تفاصيل إضافية'}\n` +
-      `━━━━━━━━━━━━━━━\n` +
-      `أرجو التواصل معي في أقرب وقت 🙏`;
+    var waNumber = '201113068872';
+    var text =
+      'مرحباً MDN Travel 👋\n\n' +
+      '📋 *طلب حجز جديد*\n' +
+      '━━━━━━━━━━━━━━━\n' +
+      '👤 الاسم: ' + name + '\n' +
+      '📞 الهاتف: ' + phone + '\n' +
+      '✈️ نوع الحجز: ' + bookingType + '\n' +
+      '🌍 الوجهة: ' + (dest || 'لم تحدد') + '\n' +
+      '📝 التفاصيل: ' + (msg || 'لا توجد تفاصيل إضافية') + '\n' +
+      '━━━━━━━━━━━━━━━\n' +
+      'أرجو التواصل معي في أقرب وقت 🙏';
 
-    const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
-    window.open(waURL, '_blank');
+    // رابط مباشر يفتح واتساب بدون popup blocker
+    var waURL = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(text);
+    var a = document.createElement('a');
+    a.href = waURL;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
     // reset
     document.getElementById('nameInput').value  = '';
@@ -1143,6 +1346,13 @@
     document.getElementById('type1').checked    = true;
 
     document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function shakeField(id) {
+    var el = document.getElementById(id);
+    el.style.borderColor = '#e74c3c';
+    el.style.animation = 'shake 0.4s ease';
+    setTimeout(function(){ el.style.animation = ''; el.style.borderColor = ''; }, 800);
   }
 
   function closeModal() {
@@ -1159,5 +1369,14 @@
     el.style.transitionDelay = (i * 0.08) + 's';
   });
 </script>
+
+<!-- ══════ FLOATING WHATSAPP ══════ -->
+<a class="wa-float" href="https://wa.me/201113068872" target="_blank" rel="noopener noreferrer" title="تواصل عبر واتساب">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="16" cy="16" r="16" fill="#25d366"/>
+    <path d="M22.5 9.5A9.43 9.43 0 0 0 16 7C11.03 7 7 11.03 7 16a8.94 8.94 0 0 0 1.3 4.7L7 25l4.44-1.28A9.07 9.07 0 0 0 16 25c4.97 0 9-4.03 9-9 0-2.4-.94-4.66-2.5-6.5zm-6.5 13.83a7.5 7.5 0 0 1-3.83-1.05l-.27-.16-2.64.76.74-2.7-.18-.28A7.5 7.5 0 1 1 16 23.33zm4.1-5.6c-.22-.11-1.32-.65-1.53-.72-.2-.08-.35-.11-.5.11-.15.22-.58.72-.71.87-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.79-1.1-.66-.59-1.1-1.31-1.23-1.53-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.08-.15.04-.28-.02-.39-.06-.11-.5-1.2-.68-1.64-.18-.43-.36-.37-.5-.38h-.43c-.15 0-.39.06-.6.28-.2.22-.78.76-.78 1.86s.8 2.16.91 2.31c.11.15 1.57 2.4 3.81 3.36.53.23.95.37 1.27.47.53.17 1.02.15 1.4.09.43-.07 1.32-.54 1.5-1.06.19-.52.19-.97.13-1.06-.06-.09-.2-.15-.42-.26z" fill="white"/>
+  </svg>
+  <span class="wa-label">واتساب مباشر</span>
+</a>
 </body>
 </html>
