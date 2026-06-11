@@ -547,8 +547,8 @@
     .form-group select option { background: var(--navy-mid); }
     .submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--navy);
+      background: linear-gradient(135deg, #25d366, #1da851);
+      color: var(--white);
       border: none;
       padding: 14px;
       border-radius: 12px;
@@ -558,11 +558,44 @@
       cursor: pointer;
       transition: transform .2s, box-shadow .2s;
       margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
     .submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(201,168,76,0.4);
+      box-shadow: 0 10px 28px rgba(37,211,102,0.4);
     }
+
+    /* ── BOOKING TYPE ── */
+    .booking-type-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .booking-option { display: block; cursor: pointer; }
+    .booking-option input[type="radio"] { display: none; }
+    .booking-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      transition: border-color .2s, background .2s;
+    }
+    .booking-option input[type="radio"]:checked + .booking-box {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.1);
+    }
+    .booking-option:hover .booking-box {
+      border-color: rgba(201,168,76,0.4);
+      background: rgba(201,168,76,0.05);
+    }
+    .booking-icons { font-size: 20px; }
+    .booking-label { font-size: 14px; font-weight: 600; color: var(--off-white); }
 
     /* ── FOOTER ── */
     footer {
@@ -939,22 +972,63 @@
         <input type="tel" placeholder="+20 ..." id="phoneInput" />
       </div>
       <div class="form-group">
+        <label>نوع الحجز</label>
+        <div class="booking-type-group">
+          <label class="booking-option">
+            <input type="radio" name="bookingType" value="تذكرة طيران + حجز فندق" id="type1" checked />
+            <span class="booking-box">
+              <span class="booking-icons">✈️🏨</span>
+              <span class="booking-label">تذكرة طيران + حجز فندق</span>
+            </span>
+          </label>
+          <label class="booking-option">
+            <input type="radio" name="bookingType" value="تذكرة طيران فقط" id="type2" />
+            <span class="booking-box">
+              <span class="booking-icons">✈️</span>
+              <span class="booking-label">تذكرة طيران فقط</span>
+            </span>
+          </label>
+          <label class="booking-option">
+            <input type="radio" name="bookingType" value="حجز فندق فقط" id="type3" />
+            <span class="booking-box">
+              <span class="booking-icons">🏨</span>
+              <span class="booking-label">حجز فندق فقط</span>
+            </span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
         <label>الوجهة المطلوبة</label>
         <select id="destInput">
-          <option value="">اختر الوجهة</option>
-          <option>أوروبا</option>
-          <option>آسيا</option>
-          <option>أمريكا</option>
-          <option>الخليج العربي</option>
-          <option>إفريقيا</option>
-          <option>أخرى</option>
+          <option value="">اختر الدولة</option>
+          <optgroup label="🌍 إفريقيا">
+            <option>مصر</option><option>المغرب</option><option>تونس</option><option>الجزائر</option><option>ليبيا</option><option>السودان</option><option>إثيوبيا</option><option>كينيا</option><option>تنزانيا</option><option>جنوب أفريقيا</option><option>نيجيريا</option><option>غانا</option><option>سيشيل</option><option>موريشيوس</option><option>زنجبار</option><option>مدغشقر</option><option>رواندا</option><option>أوغندا</option><option>الكاميرون</option><option>السنغال</option><option>كوت ديفوار</option><option>موزمبيق</option><option>زيمبابوي</option><option>بوتسوانا</option><option>ناميبيا</option>
+          </optgroup>
+          <optgroup label="🌏 الشرق الأوسط والخليج">
+            <option>السعودية</option><option>الإمارات</option><option>قطر</option><option>الكويت</option><option>البحرين</option><option>عُمان</option><option>الأردن</option><option>لبنان</option><option>العراق</option><option>سوريا</option><option>فلسطين</option><option>اليمن</option><option>إيران</option><option>إسرائيل</option>
+          </optgroup>
+          <optgroup label="🌏 آسيا">
+            <option>تركيا</option><option>الهند</option><option>الصين</option><option>اليابان</option><option>كوريا الجنوبية</option><option>إندونيسيا</option><option>ماليزيا</option><option>تايلاند</option><option>فيتنام</option><option>الفلبين</option><option>سنغافورة</option><option>سريلانكا</option><option>نيبال</option><option>باكستان</option><option>بنغلاديش</option><option>ميانمار</option><option>كمبوديا</option><option>لاوس</option><option>أذربيجان</option><option>جورجيا</option><option>أرمينيا</option><option>كازاخستان</option><option>أوزبكستان</option><option>قيرغيزستان</option><option>طاجيكستان</option><option>تركمانستان</option><option>أفغانستان</option><option>المالديف</option><option>بوتان</option><option>منغوليا</option><option>تيمور الشرقية</option><option>بروناي</option>
+          </optgroup>
+          <optgroup label="🌍 أوروبا">
+            <option>فرنسا</option><option>إيطاليا</option><option>إسبانيا</option><option>ألمانيا</option><option>المملكة المتحدة</option><option>هولندا</option><option>بلجيكا</option><option>سويسرا</option><option>النمسا</option><option>البرتغال</option><option>اليونان</option><option>بولندا</option><option>جمهورية التشيك</option><option>المجر</option><option>رومانيا</option><option>بلغاريا</option><option>كرواتيا</option><option>صربيا</option><option>السويد</option><option>النرويج</option><option>الدنمارك</option><option>فنلندا</option><option>آيرلندا</option><option>اسكتلندا</option><option>ويلز</option><option>لوكسمبورغ</option><option>مالطا</option><option>قبرص</option><option>ألبانيا</option><option>البوسنة والهرسك</option><option>الجبل الأسود</option><option>مقدونيا الشمالية</option><option>سلوفينيا</option><option>سلوفاكيا</option><option>لاتفيا</option><option>ليتوانيا</option><option>إستونيا</option><option>أيسلندا</option><option>موناكو</option><option>أندورا</option><option>سان مارينو</option><option>ليختنشتاين</option><option>روسيا</option><option>أوكرانيا</option><option>بيلاروسيا</option><option>مولدوفا</option><option>جمهورية كوسوفو</option>
+          </optgroup>
+          <optgroup label="🌎 أمريكا الشمالية والوسطى">
+            <option>الولايات المتحدة</option><option>كندا</option><option>المكسيك</option><option>كوبا</option><option>جامايكا</option><option>الدومينيكان</option><option>هايتي</option><option>بورتوريكو</option><option>باهاماس</option><option>بربادوس</option><option>ترينيداد وتوباغو</option><option>غواتيمالا</option><option>هندوراس</option><option>السلفادور</option><option>نيكاراغوا</option><option>كوستاريكا</option><option>بنما</option><option>بليز</option>
+          </optgroup>
+          <optgroup label="🌎 أمريكا الجنوبية">
+            <option>البرازيل</option><option>الأرجنتين</option><option>كولومبيا</option><option>بيرو</option><option>تشيلي</option><option>فنزويلا</option><option>الإكوادور</option><option>بوليفيا</option><option>باراغواي</option><option>أوروغواي</option><option>سورينام</option><option>غيانا</option>
+          </optgroup>
+          <optgroup label="🌊 أوقيانوسيا">
+            <option>أستراليا</option><option>نيوزيلندا</option><option>فيجي</option><option>بابوا غينيا الجديدة</option><option>جزر سليمان</option><option>فانواتو</option><option>ساموا</option><option>تونغا</option>
+          </optgroup>
         </select>
       </div>
       <div class="form-group">
         <label>تفاصيل الرحلة</label>
         <textarea rows="3" placeholder="عدد الأشخاص، التواريخ، متطلبات خاصة..." id="msgInput"></textarea>
       </div>
-      <button class="submit-btn" onclick="submitForm()">✈️ أرسل الطلب</button>
+      <button class="submit-btn" onclick="submitForm()">✈️ أرسل عبر واتساب</button>
     </div>
   </div>
 </section>
@@ -981,10 +1055,10 @@
 <!-- ══════ MODAL ══════ -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="icon">✅</div>
-    <h3>تم إرسال طلبك بنجاح!</h3>
-    <p>شكراً لتواصلك مع MDN Travel. سيتصل بك فريقنا في أقرب وقت ممكن.<br><br>
-    يمكنك أيضاً التواصل مباشرة عبر الهاتف للحجز الفوري.</p>
+    <div class="icon">💬</div>
+    <h3>جاري فتح واتساب!</h3>
+    <p>سيتم فتح واتساب تلقائياً مع رسالة حجزك جاهزة.<br><br>
+    فقط اضغط "إرسال" في واتساب وسيتواصل معك فريقنا في أقرب وقت ✅</p>
     <button class="modal-close" onclick="closeModal()">حسناً 👍</button>
   </div>
 </div>
@@ -1033,20 +1107,42 @@
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // ── Form submit ──
+  // ── Form submit → WhatsApp ──
   function submitForm() {
     const name  = document.getElementById('nameInput').value.trim();
     const phone = document.getElementById('phoneInput').value.trim();
+    const dest  = document.getElementById('destInput').value.trim();
+    const msg   = document.getElementById('msgInput').value.trim();
+    const bookingType = document.querySelector('input[name="bookingType"]:checked').value;
+
     if (!name || !phone) {
       alert('من فضلك أدخل الاسم ورقم الهاتف على الأقل');
       return;
     }
-    document.getElementById('modalOverlay').classList.add('open');
+
+    const waNumber = '00201113068872';
+    const text = `مرحباً MDN Travel 👋\n\n` +
+      `📋 *طلب حجز جديد*\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `👤 الاسم: ${name}\n` +
+      `📞 الهاتف: ${phone}\n` +
+      `✈️ نوع الحجز: ${bookingType}\n` +
+      `🌍 الوجهة: ${dest || 'لم تحدد'}\n` +
+      `📝 التفاصيل: ${msg || 'لا توجد تفاصيل إضافية'}\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `أرجو التواصل معي في أقرب وقت 🙏`;
+
+    const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
+    window.open(waURL, '_blank');
+
     // reset
     document.getElementById('nameInput').value  = '';
     document.getElementById('phoneInput').value = '';
     document.getElementById('destInput').value  = '';
     document.getElementById('msgInput').value   = '';
+    document.getElementById('type1').checked    = true;
+
+    document.getElementById('modalOverlay').classList.add('open');
   }
 
   function closeModal() {
